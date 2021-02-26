@@ -1,9 +1,9 @@
-import './App.css';
+//imports
 
 function App() {
   return (
     <div>
-      <h2>Hello.</h2>
+      <h1>GA Space X</h1>
     </div>
   );
 }
