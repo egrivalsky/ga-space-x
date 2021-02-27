@@ -1,7 +1,12 @@
 // imports
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
+// components
 import Company from './components/companies/Company';
+import CapsuleUnitContainer from './components/capsules/CapsuleUnitContainer';
+
 /*{
 ceo: "Elon Musk"
 coo: "Gwynne Shotwell"
@@ -21,14 +26,15 @@ valuation: 52000000000
 vehicles: 3
 }
 */
+
 function App() {
   // state
   const [company, setCompany] = useState({});
+
   useEffect(() => {
     const fetchCompany = async () => {
       const response = await axios.get('https://api.spacexdata.com/v4/company');
       const data = response.data;
-      console.log(data);
       // destructuring
       const { ceo, employees, name, valuation, vehicles } = data;
       setCompany({
@@ -39,15 +45,25 @@ function App() {
         valuation,
         vehicles
       });
+
     }
     fetchCompany();
   }, [])
-  console.log(company);
+  console.log(company)
   return (
-    <div>
-      <h1>GA Space X</h1>
-      <Company company={ company } />
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <Link to="/">Home</Link>
+
+          <Link to="/capsules">Capsules</Link>
+        </nav>
+        <h1>GA Space X</h1>
+        <Route exact path="/" render={() => <Company company={company}/>} />
+        <Route path="/capsules" component={CapsuleUnitContainer} />
+      </div>
+    </Router>
   );
 }
+
 export default App;
